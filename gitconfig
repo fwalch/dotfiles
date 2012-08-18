@@ -1,0 +1,18 @@
+[user]
+  name = Florian Walch
+[alias]
+  co = checkout
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+[core]
+  excludesfile = ~/.dotfiles/gitignore
+  editor = vim
+  autocrlf = input
+[apply]
+  whitespace = nowarn
+[format]
+  pretty = %C(yellow)%h%Creset %s %C(red)(%cr)%Creset
+[branch]
+  autosetuprebase = always
