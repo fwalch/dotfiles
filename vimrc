@@ -13,6 +13,7 @@ Bundle 'tpope/vim-vividchalk'
 Bundle 'CSApprox'
 Bundle 'Rip-Rip/clang_complete'
 Bundle 'kchmck/vim-coffee-script'
+Bundle 'scrooloose/syntastic'
 
 " +----------------+
 " | Basic settings |
@@ -32,12 +33,15 @@ set encoding=utf-8                " UTF-8 encoding
 set showcmd                       " Displays command in last line
 set showmode                      " Displays mode in last line
 set wildmenu                      " Displays tab completion above status line
+set cursorline                    " Highlight current line
 set modelines=0                   " Disable modelines
 set ttyfast                       " Faster redrawing in terminal
 set visualbell                    " Visual bell instead of beeping
 set hidden                        " Allow hidden buffers
 set shell=zsh                     " Use zsh
 silent! colorscheme vividchalk    " Use vividchalk color scheme
+highlight SignColumn guibg=Black ctermbg=Black
+highlight CursorLine term=bold cterm=bold
 
 " -- Backup/Swap etc.
 set nobackup                      " No backup files
@@ -96,10 +100,6 @@ nnoremap <Leader>P "0P
 inoremap <C-J> <C-N>
 inoremap <C-K> <C-P>
 
-" ///////////////
-" /// Plugins ///
-" ///////////////
-
 " +-----------------------+
 " | surround.vim settings |
 " +-----------------------+
@@ -115,12 +115,21 @@ let g:rails_syntax = 0
 
 let g:ctrlp_match_window_bottom = 0 " Show on top of the screen
 let g:ctrlp_dotfiles = 0            " Don't search dotfiles
-let g:ctrlp_clear_cache_on_exit = 0 " Don't clear cache on exit
+let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_custom_ignore = '\.class$\|\vendor/bundle$|\tmp$'
 
 " +-------------------------+
 " | clang_complete settings |
 " +-------------------------+
 
-let g:clang_use_library = 1         " Use libclang instead of executable
+let g:clang_use_library = 1
+
+" +--------------------+
+" | syntastic settings |
+" +--------------------+
+
+let g:syntastic_check_on_open = 1
+let g:syntastic_cpp_compiler = 'clang++'
+let g:syntastic_error_symbol = '✗'
+let g:syntastic_warning_symbol = '⚠'
 
