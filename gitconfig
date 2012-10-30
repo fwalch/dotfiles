@@ -3,9 +3,7 @@
 [alias]
   co = checkout
 [color]
-  diff = auto
-  status = auto
-  branch = auto
+  ui = true
 [core]
   excludesfile = ~/.dotfiles/gitignore
   editor = vim
@@ -16,3 +14,5 @@
   pretty = %C(yellow)%h%Creset %s %C(red)(%cr)%Creset
 [branch]
   autosetuprebase = always
+[help]
+  autocorrect = true

@@ -8,12 +8,20 @@ Bundle 'gmarik/vundle'
 
 " -- Plugins
 
-Bundle 'kien/ctrlp.vim'
+" Theme
 Bundle 'tpope/vim-vividchalk'
+" Color schema support for terminal vim
 Bundle 'CSApprox'
+" File finder
+Bundle 'kien/ctrlp.vim'
+" C/C++ autocompletion
 Bundle 'Rip-Rip/clang_complete'
+" CoffeeScript support
 Bundle 'kchmck/vim-coffee-script'
+" Syntax checking
 Bundle 'scrooloose/syntastic'
+" Statusline
+Bundle 'Lokaltog/vim-powerline'
 
 " +----------------+
 " | Basic settings |
@@ -40,6 +48,8 @@ set visualbell                    " Visual bell instead of beeping
 set hidden                        " Allow hidden buffers
 set shell=zsh                     " Use zsh
 silent! colorscheme vividchalk    " Use vividchalk color scheme
+
+" -- Color scheme modifications
 highlight SignColumn guibg=Black ctermbg=Black
 highlight CursorLine term=bold cterm=bold
 
@@ -81,7 +91,7 @@ set listchars=trail:░             " Mark trailing whitespace
 
 let mapleader=","                 " ',' is the leader character
 
-" -- Map F1 to ESC
+" Map F1 to ESC
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
@@ -113,10 +123,8 @@ let g:rails_syntax = 0
 " | CTRL+P settings |
 " +-----------------+
 
-let g:ctrlp_match_window_bottom = 0 " Show on top of the screen
 let g:ctrlp_dotfiles = 0            " Don't search dotfiles
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_custom_ignore = '\.class$\|\vendor/bundle$|\tmp$'
+let g:ctrlp_custom_ignore = '\.class$\|\vendor/bundle$|\tmp$|\.o$'
 
 " +-------------------------+
 " | clang_complete settings |
@@ -128,8 +136,19 @@ let g:clang_use_library = 1
 " | syntastic settings |
 " +--------------------+
 
+let g:syntastic_enable_signs = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_cpp_compiler = 'clang++'
 let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '⚠'
+let g:syntastic_cpp_compiler_options = '-std=c++11'
+
+" +--------------------+
+" | powerline settings |
+" +--------------------+
+
+let g:Powerline_symbols_override = {
+  \ 'LINE': '¶',
+  \ 'RO': '✗',
+  \ }
 
