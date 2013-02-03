@@ -14,26 +14,34 @@ Bundle 'tpope/vim-vividchalk'
 Bundle 'CSApprox'
 " File finder
 Bundle 'kien/ctrlp.vim'
-" C/C++ autocompletion
-Bundle 'Rip-Rip/clang_complete'
 " CoffeeScript support
 Bundle 'kchmck/vim-coffee-script'
 " Syntax checking
 Bundle 'scrooloose/syntastic'
 " Statusline
 Bundle 'Lokaltog/vim-powerline'
+" Matchit
+Bundle 'matchit.zip'
+" Ruby support
+Bundle 'vim-ruby/vim-ruby'
 
 " +----------------+
 " | Basic settings |
 " +----------------+
 
-filetype plugin indent on         " Turn on different indentations for fts
+if has("autocmd")
+  " Automatically source .vimrc on writing
+  autocmd! bufwritepost .vimrc source $MYVIMRC
+  " Turn on indentations for file types
+  filetype plugin indent on
+endif
 
 " To support color scheme in graphical terminals
 if &term == 'linux'
   let CSApprox_loaded = 1         " Disable CSApprox in virtual console
 else
   set t_Co=256                    " Force colors
+  silent! colorscheme vividchalk  " Use vividchalk color scheme
 endif
 
 syntax on                         " Turn on syntax highlighting
@@ -45,20 +53,17 @@ set cursorline                    " Highlight current line
 set modelines=0                   " Disable modelines
 set ttyfast                       " Faster redrawing in terminal
 set visualbell                    " Visual bell instead of beeping
-set hidden                        " Allow hidden buffers
 set shell=zsh                     " Use zsh
-silent! colorscheme vividchalk    " Use vividchalk color scheme
 
 " -- Color scheme modifications
 highlight SignColumn guibg=Black ctermbg=Black
 highlight CursorLine term=bold cterm=bold
 
 " -- Backup/Swap etc.
-set nobackup                      " No backup files
-set nowritebackup                 " No backup files
-set dir=~/.vimswap//,/tmp//       " Swap Directory
-set undodir=~/.vimundo//,/tmp//   " Undo Directory
 set undofile                      " Use undo-file features
+set backupdir=~/.vtmp/b//,/tmp//  " Backup directory
+set dir=~/.vtmp/s//,/tmp//        " Swap directory
+set undodir=~/.vtmp/u//,/tmp//    " Undo directory
 
 " -- Searching
 set incsearch                     " Incremental search
@@ -83,24 +88,13 @@ set expandtab                     " Use spaces instead of tabs
 set backspace=indent,eol,start    " Backspacing over everything
 
 set list                          " Mark whitespace
-set listchars=trail:░             " Mark trailing whitespace
+set listchars=trail:␣             " Mark trailing whitespace
 
 " +--------------+
 " | Key mappings |
 " +--------------+
 
-let mapleader=","                 " ',' is the leader character
-
-" Map F1 to ESC
-inoremap <F1> <ESC>
-nnoremap <F1> <ESC>
-vnoremap <F1> <ESC>
-
-" Map C-H,J,K,L to arrow keys in command mode (like CTRL+P settings)
-cnoremap <C-H> <Left>
-cnoremap <C-J> <Down>
-cnoremap <C-K> <Up>
-cnoremap <C-L> <Right>
+let mapleader="ö"
 
 " Map Leader-P to paste last yanked content
 nnoremap <Leader>p "0p
@@ -110,14 +104,8 @@ nnoremap <Leader>P "0P
 inoremap <C-J> <C-N>
 inoremap <C-K> <C-P>
 
-" +-----------------------+
-" | surround.vim settings |
-" +-----------------------+
-
-nmap s ys
-nmap S yS
-vmap s S
-let g:rails_syntax = 0
+" Map <C-W> to write file as root
+cmap <C-W> w !sudo tee % > /dev/null
 
 " +-----------------+
 " | CTRL+P settings |
@@ -125,12 +113,6 @@ let g:rails_syntax = 0
 
 let g:ctrlp_dotfiles = 0            " Don't search dotfiles
 let g:ctrlp_custom_ignore = '\.class$\|\vendor/bundle$|\tmp$|\.o$'
-
-" +-------------------------+
-" | clang_complete settings |
-" +-------------------------+
-
-let g:clang_use_library = 1
 
 " +--------------------+
 " | syntastic settings |
