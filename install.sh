@@ -9,7 +9,7 @@ echo '✱ Checking out submodules'
 git submodule update --init
 
 echo '✱ Linking config files'
-targets=(gitconfig gvimrc inputrc irbrc lynxrc vimrc zshenv zshrc vim)
+targets=(gdbinit gitconfig gvimrc inputrc irbrc lynxrc vimrc zshenv zshrc vim)
 for target in $targets; do
   ln -nfs $HOME/.dotfiles/$target $HOME/.$target
 done
@@ -17,6 +17,14 @@ done
 whence vim > /dev/null && {
   echo '✱ Installing VIM bundles'
   vim +BundleInstall +qall
+
+  echo '✱ Compiling YouCompleteMe'
+  cd ~/.vim/bundle/YouCompleteMe
+  ycm_log=$HOME/.dotfiles/YouCompleteMe-install.log
+  ./install.sh --clang-completer > $ycm_log
+  ycm_ret=$?
+  [ $ycm_ret -eq 0 ] && rm $ycm_log
+  [ $ycm_ret -ne 0 ] && echo "✘ Something went wrong; check $ycm_log for details."
 }
 
 echo '✔ All done!'

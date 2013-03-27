@@ -1,7 +1,6 @@
-PROMPT='%{$fg_bold[green]%}%p %{$fg[cyan]%}%c%{$fg_bold[blue]%}$(git_prompt_info)%{$fg_bold[blue]%} % %{$reset_color%}'
-RPROMPT='$(battery_pct_prompt)'
+PROMPT=' $FX[bold]$FG[032]%c$(git_prompt_info) $FX[reset]'
 
-ZSH_THEME_GIT_PROMPT_PREFIX=" (%{$fg[red]%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}) %{$fg[yellow]%}✗%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%})"
+ZSH_THEME_GIT_PROMPT_PREFIX=" $FG[015]($FG[001]"
+ZSH_THEME_GIT_PROMPT_SUFFIX=""
+ZSH_THEME_GIT_PROMPT_DIRTY="$FG[015]) $FG[154]✗"
+ZSH_THEME_GIT_PROMPT_CLEAN="$FG[015])"

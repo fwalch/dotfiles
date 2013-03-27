@@ -16,3 +16,7 @@
   autosetuprebase = always
 [push]
   default = simple
+[diff]
+  tool = vimdiff
+[difftool]
+  prompt = false
