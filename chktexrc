@@ -1,0 +1,2 @@
+VerbEnvir { lstlisting sageblock sagesilent }
+CmdLine { -v }

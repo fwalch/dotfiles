@@ -6,32 +6,18 @@ Bundle 'gmarik/vundle'
 
 " -- Plugins
 
-" Theme
 Bundle 'sjl/badwolf'
-" CoffeeScript support
-Bundle 'kchmck/vim-coffee-script'
-" Ruby support
-Bundle 'vim-ruby/vim-ruby'
 
-" File finder
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'cakebaker/scss-syntax.vim'
+
 Bundle 'kien/ctrlp.vim'
-" * search in visual mode
-Bundle 'nelstrom/vim-visual-star-search'
-" Statusline
-Bundle 'Lokaltog/vim-powerline'
-" Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim'}
-" Matchit
+Bundle 'bling/vim-airline'
 Bundle 'matchit.zip'
-" Code completion
 Bundle 'Valloric/YouCompleteMe'
-" Syntax checking
 Bundle 'scrooloose/syntastic'
-" Automatic ctags updating
-Bundle 'basilgor/vim-autotags'
-" List movement key mappings
 Bundle 'tpope/vim-unimpaired'
-" Movement
-Bundle 'Lokaltog/vim-easymotion'
 
 " +----------------+
 " | Basic settings |
@@ -39,11 +25,18 @@ Bundle 'Lokaltog/vim-easymotion'
 
 filetype plugin indent on
 
+" Modify color scheme for each terminal
 if &term == 'linux'
   silent! colorscheme darkblue
+  highlight SyntasticError ctermbg=darkblue
+  highlight SyntasticWarning ctermbg=darkgreen
 else
   silent! colorscheme badwolf
+  highlight SyntasticError ctermbg=196 guibg=#ff2c4b ctermfg=15 guifg=#f9f6f2 cterm=bold term=bold gui=bold
+  highlight SyntasticWarning ctermbg=214 guibg=#ffa724 ctermfg=15 guifg=#f9f6f2 cterm=bold term=bold gui=bold
 endif
+
+highlight CursorLine term=bold cterm=bold gui=bold
 
 syntax on                         " Turn on syntax highlighting
 set encoding=utf-8                " UTF-8 encoding
@@ -55,11 +48,7 @@ set modelines=0                   " Disable modelines
 set ttyfast                       " Faster redrawing in terminal
 set visualbell                    " Visual bell instead of beeping
 set shell=zsh                     " Use zsh
-
-" -- Color scheme modifications
-highlight SyntasticError ctermbg=darkblue guibg=blue
-highlight SyntasticWarning ctermbg=darkgreen guibg=darkgreen
-highlight CursorLine term=bold cterm=bold gui=bold
+set ttimeoutlen=50
 
 " -- Backup/Swap etc.
 set undofile                      " Use undo-file features
@@ -73,6 +62,10 @@ set hlsearch                      " Highlight search words
 set ignorecase                    " Search is case-insensitive ...
 set smartcase                     " ... unless it contains a capital letter
 
+" -- Spell checking
+set spelllang=en,de
+set spellfile=~/.vim/spell/fwalch.utf-8.add
+
 " -- Completion
 set completeopt=menuone           " Show completion menu, also if only one match
 
@@ -81,6 +74,9 @@ set ruler                         " Show current position in status bar
 set laststatus=2                  " Always display status line
 set noshowmode                    " Hide mode text below status line
 set relativenumber                " Show relative line numbers
+
+" -- Window management
+set splitright                    " Create vertical splits on the right
 
 " -- Indentation etc.
 set tabstop=2                     " 2 spaces equal one tab
@@ -100,11 +96,6 @@ let mapleader="ö"
 
 nnoremap <F5> :make<CR>
 
-" Switch , and ; in normal mode
-" I don't want to hit Shift to move forward! (German layout)
-nnoremap , ;
-nnoremap ; ,
-
 " Map CTRL-J and CTRL-K to move through completion
 inoremap <C-J> <C-N>
 inoremap <C-K> <C-P>
@@ -117,12 +108,7 @@ nnoremap [P :ptfirst<CR>
 
 " Plugin mappings
 nnoremap <F6> :YcmForceCompileAndDiagnostics<CR>
-
-" +-------------------+
-" | autotags settings |
-" +-------------------+
-
-let g:autotags_no_global=1
+nnoremap <C-B> :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " +-----------------+
 " | CTRL-P settings |
@@ -152,21 +138,17 @@ let g:ycm_confirm_extra_conf=0         " Don't ask when opening ycm config file
 let g:ycm_add_preview_to_completeopt=1
 let g:ycm_autoclose_preview_window_after_insertion=1
 
-" +--------------------+
-" | powerline settings |
-" +--------------------+
+" +------------------+
+" | airline settings |
+" +------------------+
 
-let g:Powerline_symbols = 'compatible'
-let g:Powerline_symbols_override={
-  \ 'LINE': '¶',
-  \ 'RO': '✗',
-  \ }
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
+let g:airline_linecolumn_prefix = '¶ '
+let g:airline_fugitive_prefix = '⎇ '
+let g:airline_paste_symbol = '∥'
 
-" +---------------------+
-" | EasyMotion settings |
-" +---------------------+
-
-let g:EasyMotion_leader_key = '<Leader>'
+let g:airline_theme='badwolf'
 
 " Source local extra config file if it exists
 let s:extra_config = getcwd() .'/.vim_extra_conf.vim'

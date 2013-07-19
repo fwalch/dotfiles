@@ -1,2 +1,4 @@
 vim/bundle/*
 !vim/bundle/vundle
+vim/spell/*.spl
+*.log

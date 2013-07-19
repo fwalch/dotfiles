@@ -1,12 +1,16 @@
+#
+# ~/.zshrc
+#
+
 export ZSH=$HOME/.dotfiles/zsh/oh-my-zsh
 export ZSH_THEME="fwalch"
+
+plugins=(gitfast)
 
 # For virtual console, fall back to fwalch theme included in oh-my-zsh
 if [[ $TERM != "linux" ]]; then
   export ZSH_CUSTOM=$HOME/.dotfiles/zsh/custom
 fi
-
-plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -21,6 +25,4 @@ fi
 bindkey -v
 unsetopt correct_all
 
-# Load local config for custom aliases etc.
 source $HOME/.zshrc.local
-

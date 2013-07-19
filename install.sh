@@ -9,14 +9,14 @@ echo '✱ Checking out submodules'
 git submodule update --init
 
 echo '✱ Linking config files'
-targets=(gdbinit gitconfig gvimrc inputrc irbrc lynxrc vimrc zshenv zshrc vim)
+targets=(chktexrc gdbinit gitconfig gitignore gvimrc inputrc irbrc lynxrc vimrc zshenv zshrc vim)
 for target in $targets; do
   ln -nfs $HOME/.dotfiles/$target $HOME/.$target
 done
 
 whence vim > /dev/null && {
   echo '✱ Installing VIM bundles'
-  vim +BundleInstall +qall
+  vim +BundleInstall! +qall
 
   echo '✱ Compiling YouCompleteMe'
   cd ~/.vim/bundle/YouCompleteMe

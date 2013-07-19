@@ -1,1 +1,1 @@
-set path+=include
+setlocal path+=include
