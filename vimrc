@@ -10,14 +10,15 @@ Bundle 'sjl/badwolf'
 
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'vim-ruby/vim-ruby'
+Bundle 'derekwyatt/vim-scala'
 Bundle 'cakebaker/scss-syntax.vim'
-
+Bundle 'LaTeX-Box-Team/LaTeX-Box'
 Bundle 'kien/ctrlp.vim'
 Bundle 'bling/vim-airline'
-Bundle 'matchit.zip'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'scrooloose/syntastic'
-Bundle 'tpope/vim-unimpaired'
+Bundle 'tpope/vim-surround'
+Bundle 'Raimondi/delimitMate'
 
 " +----------------+
 " | Basic settings |
@@ -47,8 +48,6 @@ set cursorline                    " Highlight current line
 set modelines=0                   " Disable modelines
 set ttyfast                       " Faster redrawing in terminal
 set visualbell                    " Visual bell instead of beeping
-set shell=zsh                     " Use zsh
-set ttimeoutlen=50
 
 " -- Backup/Swap etc.
 set undofile                      " Use undo-file features
@@ -63,7 +62,7 @@ set ignorecase                    " Search is case-insensitive ...
 set smartcase                     " ... unless it contains a capital letter
 
 " -- Spell checking
-set spelllang=en,de
+set spelllang=en_us,de
 set spellfile=~/.vim/spell/fwalch.utf-8.add
 
 " -- Completion
@@ -81,12 +80,12 @@ set splitright                    " Create vertical splits on the right
 " -- Indentation etc.
 set tabstop=2                     " 2 spaces equal one tab
 set softtabstop=2                 " 2 spaces equal one tab
-set shiftwidth=2                  " Auto-indent spaces
+set shiftwidth=0                  " Use tabstop for auto-indentation
 set expandtab                     " Use spaces instead of tabs
 set backspace=indent,eol,start    " Backspacing over everything
 
-set list                          " Mark whitespace
-set listchars=trail:␣             " Mark trailing whitespace
+set list                          " Show invisible characters
+set listchars=tab:▸\ ,trail:␣
 
 " +--------------+
 " | Key mappings |
@@ -107,7 +106,6 @@ nnoremap ]P :ptlast<CR>
 nnoremap [P :ptfirst<CR>
 
 " Plugin mappings
-nnoremap <F6> :YcmForceCompileAndDiagnostics<CR>
 nnoremap <C-B> :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " +-----------------+
@@ -116,6 +114,7 @@ nnoremap <C-B> :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 let g:ctrlp_custom_ignore='\.class$\|\vendor/bundle$|\tmp$|\.o$'
 let g:ctrlp_by_filename=1 " Search only filename by default
+let g:ctrlp_working_path_mode = 'rwa'
 
 " +--------------------+
 " | syntastic settings |
@@ -125,10 +124,8 @@ let g:syntastic_enable_signs=0
 let g:syntastic_check_on_open=1
 let g:syntastic_always_populate_loc_list=1
 
-let g:syntastic_c_checkers=['ycm']
-let g:syntastic_cpp_checkers=['ycm']
-let g:syntastic_tex_checkers=['chktex']
-let g:syntastic_ruby_checkers=['mri']
+let g:syntastic_tex_checkers=['chktex', 'lacheck']
+let g:syntastic_ruby_checkers=['mri', 'rubocop']
 
 " +------------------------+
 " | YouCompleteMe settings |
@@ -137,6 +134,7 @@ let g:syntastic_ruby_checkers=['mri']
 let g:ycm_confirm_extra_conf=0         " Don't ask when opening ycm config file
 let g:ycm_add_preview_to_completeopt=1
 let g:ycm_autoclose_preview_window_after_insertion=1
+let g:ycm_path_to_python_interpreter = '/usr/bin/python2'
 
 " +------------------+
 " | airline settings |
@@ -145,10 +143,16 @@ let g:ycm_autoclose_preview_window_after_insertion=1
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline_linecolumn_prefix = '¶ '
-let g:airline_fugitive_prefix = '⎇ '
+let g:airline_branch_prefix = '⎇ '
 let g:airline_paste_symbol = '∥'
 
 let g:airline_theme='badwolf'
+
+" +-------------------+
+" | Other settings |
+" +-------------------+
+let g:LatexBox_latexmk_preview_continuously = 1
+let delimitMate_expand_cr = 1
 
 " Source local extra config file if it exists
 let s:extra_config = getcwd() .'/.vim_extra_conf.vim'

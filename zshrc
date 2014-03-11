@@ -23,6 +23,22 @@ if [[ $TERM != "linux" ]]; then
 fi
 
 bindkey -v
+
+bindkey -M viins "^K" history-beginning-search-backward
+bindkey -M viins "^J" history-beginning-search-forward
+bindkey -M viins "^P" up-line-or-history
+bindkey -M viins "^N" down-line-or-history
+
+bindkey -M vicmd "^K" history-beginning-search-backward
+bindkey -M vicmd "^J" history-beginning-search-forward
+bindkey -M vicmd "^P" up-line-or-history
+bindkey -M vicmd "^N" down-line-or-history
+bindkey -M vicmd "?" history-incremental-search-backward
+bindkey -M vicmd "/" history-incremental-search-forward
+
 unsetopt correct_all
+unsetopt auto_name_dirs
+
+unalias rm # fix warning when including ROS setup.zsh files
 
 source $HOME/.zshrc.local
