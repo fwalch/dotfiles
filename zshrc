@@ -39,6 +39,4 @@ bindkey -M vicmd "/" history-incremental-search-forward
 unsetopt correct_all
 unsetopt auto_name_dirs
 
-unalias rm # fix warning when including ROS setup.zsh files
-
 source $HOME/.zshrc.local

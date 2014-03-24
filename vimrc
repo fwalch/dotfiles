@@ -19,6 +19,7 @@ Bundle 'Valloric/YouCompleteMe'
 Bundle 'scrooloose/syntastic'
 Bundle 'tpope/vim-surround'
 Bundle 'Raimondi/delimitMate'
+"Bundle 'gilligan/vim-lldb'
 
 " +----------------+
 " | Basic settings |
@@ -60,6 +61,10 @@ set incsearch                     " Incremental search
 set hlsearch                      " Highlight search words
 set ignorecase                    " Search is case-insensitive ...
 set smartcase                     " ... unless it contains a capital letter
+
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
 
 " -- Spell checking
 set spelllang=en_us,de
@@ -116,6 +121,11 @@ let g:ctrlp_custom_ignore='\.class$\|\vendor/bundle$|\tmp$|\.o$'
 let g:ctrlp_by_filename=1 " Search only filename by default
 let g:ctrlp_working_path_mode = 'rwa'
 
+if executable('ag')
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  let g:ctrlp_use_caching = 0
+endif
+
 " +--------------------+
 " | syntastic settings |
 " +--------------------+
@@ -155,7 +165,7 @@ let g:LatexBox_latexmk_preview_continuously = 1
 let delimitMate_expand_cr = 1
 
 " Source local extra config file if it exists
-let s:extra_config = getcwd() .'/.vim_extra_conf.vim'
-if filereadable(s:extra_config)
-  execute 'source'. s:extra_config
-endif
+" let s:extra_config = getcwd() .'/.vim_extra_conf.vim'
+" if filereadable(s:extra_config)
+"   execute 'source'. s:extra_config
+" endif
