@@ -1,4 +1,6 @@
 vim/bundle/*
 !vim/bundle/vundle
-vim/spell/*.spl
+vim/spell/*
+vim/pythonx/*
+vim/.netrwhist
 *.log

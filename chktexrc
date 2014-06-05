@@ -1,2 +1,2 @@
-VerbEnvir { lstlisting sageblock sagesilent }
+VerbEnvir { lstlisting pycode pyblock pyverbatim pyconsole sympycode sympyblock sympyverbatim sympyconsole pylabcode pylabblock pylabverbatim pylabconsole }
 CmdLine { -v }

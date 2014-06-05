@@ -12,12 +12,15 @@ if [[ $TERM != "linux" ]]; then
   export ZSH_CUSTOM=$HOME/.dotfiles/zsh/custom
 fi
 
-source $ZSH/oh-my-zsh.sh
+DISABLE_AUTO_UPDATE=true
 
+source $ZSH/oh-my-zsh.sh
+#
 # Colors!
 if [[ $TERM != "linux" ]]; then
   eval $(dircolors -b $ZSH_CUSTOM/badwolf.dircolors)
   export GREP_COLOR='01;33'
+
   # Use LS_COLORS for completion
   zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 fi
