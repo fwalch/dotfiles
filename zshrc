@@ -15,7 +15,7 @@ fi
 DISABLE_AUTO_UPDATE=true
 
 source $ZSH/oh-my-zsh.sh
-#
+
 # Colors!
 if [[ $TERM != "linux" ]]; then
   eval $(dircolors -b $ZSH_CUSTOM/badwolf.dircolors)
@@ -41,5 +41,9 @@ bindkey -M vicmd "/" history-incremental-search-forward
 
 unsetopt correct_all
 unsetopt auto_name_dirs
+unsetopt inc_append_history
+setopt append_history
+
+#source $HOME/.dotfiles/zsh/custom/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 source $HOME/.zshrc.local

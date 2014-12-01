@@ -2,20 +2,29 @@ filetype off
 set rtp+=~/.vim/bundle/vundle
 call vundle#rc()
 
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/vundle'
 
-Bundle 'sjl/badwolf'
+Plugin 'sjl/badwolf'
 
-Bundle 'tpope/vim-surround'
-Bundle 'justinmk/vim-sneak'
-Bundle 'autoswap.vim'
-Bundle 'kien/ctrlp.vim'
-Bundle 'scrooloose/syntastic'
-Bundle 'LaTeX-Box-Team/LaTeX-Box'
-Bundle 'Raimondi/delimitMate'
+"Plugin 'bling/vim-airline'
+Plugin 'tpope/vim-surround'
+Plugin 'autoswap.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'scrooloose/syntastic'
+Plugin 'cohama/lexima.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'LaTeX-Box-Team/LaTeX-Box'
+Plugin 'tpope/vim-liquid'
+Plugin 'matchit.zip'
+"Plugin 'AdvancedDiffOptions'
+Plugin 'reedes/vim-wordy'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-easytags'
+Plugin 'haya14busa/incsearch.vim'
 
 if has('python') && (v:version > 703 || (v:version == 703 && has('patch584')))
-  Bundle 'Valloric/YouCompleteMe'
+  Plugin 'Valloric/YouCompleteMe'
 end
 
 " +----------------+
@@ -68,14 +77,18 @@ set splitright                    " Create vertical splits on the right
 
 " -- Indentation and tab handling
 set tabstop=2                     " 2 spaces equal one tab
-set softtabstop=2                 " 2 spaces equal one tab
 set shiftwidth=0                  " Use tabstop for auto-indentation
+set softtabstop=-1                " Use shiftwidth
 set expandtab                     " Use spaces instead of tabs
 set backspace=indent,eol,start    " Backspacing over everything
 
+if has('linebreak')
+  set breakindent
+endif
+
 " -- Show invisible characters
 set list
-set listchars=tab:▸\ ,trail:␣
+set listchars=tab:»\ ,trail:␣,extends:↲,precedes:↳,nbsp:·
 
 " +--------------+
 " | Key mappings |
@@ -92,29 +105,8 @@ inoremap <C-K> <C-P>
 " Map CTRL-B to go to declaration
 nnoremap <C-B> :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
-" Map f to Sneak
-nmap f <Plug>Sneak_f
-nmap F <Plug>Sneak_F
-xmap f <Plug>Sneak_f
-xmap F <Plug>Sneak_F
-omap f <Plug>Sneak_f
-omap F <Plug>Sneak_F
-
-" Map t to Sneak
-nmap t <Plug>Sneak_t
-nmap T <Plug>Sneak_T
-xmap t <Plug>Sneak_t
-xmap T <Plug>Sneak_T
-omap t <Plug>Sneak_t
-omap T <Plug>Sneak_T
-
-" Map z as default Sneak
-nmap z <Plug>Sneak_s
-nmap Z <Plug>Sneak_S
-xmap z <Plug>Sneak_s
-xmap Z <Plug>Sneak_S
-omap z <Plug>Sneak_s
-omap Z <Plug>Sneak_S
+inoremap jk <ESC>
+inoremap kj <ESC>
 
 " +----------------+
 " | Theme settings |
@@ -124,12 +116,14 @@ if &term == 'linux'
   silent! colorscheme darkblue
 else
   silent! colorscheme badwolf
-  hi link SneakPluginTarget EasyMotionTarget
-  hi link SneakPluginScope EasyMotionShade
+  highlight default link SneakPluginTarget EasyMotionTarget
+  highlight default link SneakPluginScope EasyMotionShade
 endif
 
-hi link SyntasticError ErrorMsg
-hi link SyntasticWarning WarningMsg
+highlight default SyntasticError ctermbg=196 guibg=#ff2c4b ctermfg=15 guifg=#f9f6f2 cterm=bold term=bold gui=bold
+highlight default SyntasticWarning ctermbg=214 guibg=#ffa724 ctermfg=15 guifg=#f9f6f2 cterm=bold term=bold gui=bold
+
+"highlight SyntasticError guibg=128
 
 highlight CursorLine term=bold cterm=bold gui=bold
 
@@ -158,7 +152,9 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_enable_signs = 0
 
 let g:syntastic_tex_checkers = ['chktex', 'lacheck']
-let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+let g:syntastic_python_checkers = ['flake8']
+
+let g:syntastic_cpp_compiler_options = '-std=c++11'
 
 " +------------------------+
 " | YouCompleteMe settings |
@@ -169,14 +165,42 @@ let g:ycm_add_preview_to_completeopt = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_path_to_python_interpreter = '/usr/bin/python2'
 
+" +--------------------+
+" | incsearch settings |
+" +--------------------+
+
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+let g:incsearch#auto_nohlsearch = 1
+map n  <Plug>(incsearch-nohl-n)
+map N  <Plug>(incsearch-nohl-N)
+map *  <Plug>(incsearch-nohl-*)
+map #  <Plug>(incsearch-nohl-#)
+map g* <Plug>(incsearch-nohl-g*)
+map g# <Plug>(incsearch-nohl-g#)
+let g:incsearch#consistent_n_direction = 1
+augroup incsearch-keymap
+  autocmd!
+  autocmd VimEnter * call s:incsearch_keymap()
+augroup END
+function! s:incsearch_keymap()
+  IncSearchNoreMap <C-J> <Over>(incsearch-next)
+  IncSearchNoreMap <C-K> <Over>(incsearch-prev)
+  IncSearchNoreMap <C-U> <Over>(incsearch-scroll-f)
+  IncSearchNoreMap <C-D> <Over>(incsearch-scroll-b)
+endfunction
+
 " +-------------------+
 " | Other settings |
 " +-------------------+
 
 let delimitMate_expand_cr = 1
+let g:easytags_suppress_report = 1
 
 " Source local extra config file if it exists
 " let s:extra_config = getcwd() .'/.vim_extra_conf.vim'
 " if filereadable(s:extra_config)
 "   execute 'source'. s:extra_config
 " endif
+

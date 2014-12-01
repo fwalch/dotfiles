@@ -8,3 +8,4 @@ set guioptions-=b
 " set guifont=DejaVu\ Sans\ Mono\ 11
 set guifont=Monospace\ 12
 set guiheadroom=0
+colorscheme badwolf
