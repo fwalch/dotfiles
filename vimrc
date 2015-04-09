@@ -1,31 +1,50 @@
-filetype off
-set rtp+=~/.vim/bundle/vundle
-call vundle#rc()
+call plug#begin('~/.vim/plugged')
+Plug 'sjl/badwolf'
 
-Plugin 'gmarik/vundle'
+"Plug 'bling/vim-airline'
+Plug 'fmoralesc/vim-tutor-mode'
+"Plug 'tpope/vim-surround'
+"Plug 'junegunn/vader.vim'
+Plug 'junegunn/vim-peekaboo'
+Plug 'autoswap.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'scrooloose/syntastic'
+"Plug 'benekastah/neomake'
+"Plug 'cohama/lexima.vim'
+"Plug 'tpope/vim-fugitive'
+"Plug 'tpope/vim-unimpaired'
+Plug 'LaTeX-Box-Team/LaTeX-Box', { 'for': 'tex' }
+Plug 'tpope/vim-liquid', { 'for': 'html' }
+Plug 'matchit.zip'
+"Plug 'AdvancedDiffOptions'
+"Plug 'reedes/vim-wordy'
+"Plug 'xolox/vim-misc'
+"Plug 'xolox/vim-easytags'
+Plug 'haya14busa/incsearch.vim'
+Plug 'fatih/vim-go', { 'for': 'go' }
+"Plug 'KabbAmine/zeavim.vim'
+Plug 'kopischke/vim-fetch'
+Plug 'vim-scripts/diffchar.vim'
+Plug 'ludovicchabant/vim-gutentags'
 
-Plugin 'sjl/badwolf'
+if has('python')
+  Plug 'bbchung/clighter'
+endif
 
-"Plugin 'bling/vim-airline'
-Plugin 'tpope/vim-surround'
-Plugin 'autoswap.vim'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'scrooloose/syntastic'
-Plugin 'cohama/lexima.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'LaTeX-Box-Team/LaTeX-Box'
-Plugin 'tpope/vim-liquid'
-Plugin 'matchit.zip'
-"Plugin 'AdvancedDiffOptions'
-Plugin 'reedes/vim-wordy'
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-easytags'
-Plugin 'haya14busa/incsearch.vim'
-
-if has('python') && (v:version > 703 || (v:version == 703 && has('patch584')))
-  Plugin 'Valloric/YouCompleteMe'
+if substitute(system('lsb_release -si'), "\n", "", "") == 'Arch' && has('python')
+  function! BuildYCM(info)
+    " info is a dictionary with 3 fields
+    " - name:   name of the plugin
+    " - status: 'installed', 'updated', or 'unchanged'
+    " - force:  set on PlugInstall! or PlugUpdate!
+    if a:info.status == 'installed' || a:info.force
+      !./install.sh --clang-completer --system-libclang
+    endif
+  endfunction
+  Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 end
+
+call plug#end()
 
 " +----------------+
 " | Basic settings |
@@ -38,10 +57,12 @@ set encoding=utf-8                " UTF-8 encoding
 set showcmd                       " Displays command in last line
 set showmode                      " Displays mode in last line
 set wildmenu                      " Displays tab completion above status line
+set wildmode=longest:full,full    " Always show wildmenu
 set cursorline                    " Highlight current line
 set modelines=0                   " Disable modelines
 set ttyfast                       " Faster redrawing in terminal
 set visualbell                    " Visual bell instead of beeping
+set background=dark
 
 " -- Backup/Swap etc.
 set undofile                      " Use undo-file features
@@ -71,6 +92,7 @@ set ruler                         " Show current position in status bar
 set laststatus=2                  " Always display status line
 set noshowmode                    " Hide mode text below status line
 set relativenumber                " Show relative line numbers
+set number                        " ... but show absolute on current line
 
 " -- Window management
 set splitright                    " Create vertical splits on the right
@@ -97,6 +119,7 @@ set listchars=tab:»\ ,trail:␣,extends:↲,precedes:↳,nbsp:·
 let mapleader = "ö"
 
 nnoremap <F5> :make!<CR>
+nnoremap <F6> :exec 'read !'.getline('.')<CR>
 
 " Map CTRL-J and CTRL-K to move through completion
 inoremap <C-J> <C-N>
@@ -107,6 +130,10 @@ nnoremap <C-B> :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 inoremap jk <ESC>
 inoremap kj <ESC>
+if has('nvim')
+  tnoremap jk <C-\><C-N>
+  tnoremap kj <C-\><C-N>
+endif
 
 " +----------------+
 " | Theme settings |
@@ -203,4 +230,3 @@ let g:easytags_suppress_report = 1
 " if filereadable(s:extra_config)
 "   execute 'source'. s:extra_config
 " endif
-

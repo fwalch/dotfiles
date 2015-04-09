@@ -6,7 +6,7 @@
   ui = true
 [core]
   excludesfile = ~/.dotfiles/gitignore
-  editor = vim
+  editor = nvim
   autocrlf = input
 [apply]
   whitespace = nowarn
@@ -17,8 +17,10 @@
 [push]
   default = simple
 [diff]
-  tool = vimdiff
+  tool = nvim -d
 [merge]
-  tool = vimdiff
+  tool = nvim -d
 [difftool]
   prompt = false
+[grep]
+  patterntype = perl

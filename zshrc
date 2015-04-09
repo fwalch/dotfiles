@@ -46,4 +46,39 @@ setopt append_history
 
 #source $HOME/.dotfiles/zsh/custom/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+# Based on https://github.com/justinmk/config/blob/master/.bashrc#L222
+ghrebasepr() {(
+  set -e
+  set -o pipefail
+  PR=${1}
+  REPO_SLUG="$(git config --get remote.upstream.url \
+    | sed 's/^.*:\/\/github.com\/\(.*\)\.git/\1/')"
+  PR_TITLE="$(curl -Ss "https://api.github.com/repos/${REPO_SLUG}/pulls/${PR}" \
+    | jq -r '.title' \
+    | sed 's/^\[\(RFC\|RDY\)\] *//')"
+  git fetch --all &&
+  git checkout refs/pull/upstream/${PR} &&
+  git rebase upstream/master &&
+  git checkout master &&
+  git stash save autosave-$(date +%Y%m%d_%H%M%S) &&
+  git reset --hard upstream/master &&
+  git merge -m "Merge #${PR} '${PR_TITLE}'." \
+    --no-ff - &&
+  git log -n 5
+)}
+
+ghrebase1() {
+  PR=${1}
+  git fetch --all &&
+  git checkout refs/pull/upstream/${PR} &&
+  git rebase upstream/master &&
+  git checkout master &&
+  git stash save autosave-$(date +%Y%m%d_%H%M%S) &&
+  git reset --hard upstream/master &&
+  git merge --ff-only - &&
+  git commit --amend -m "$(git log -1 --pretty=format:"%B" \
+    | sed -E "1 s/^(.*)\$/\\1 #${PR}/g")" &&
+  git log -n 5
+}
+
 source $HOME/.zshrc.local

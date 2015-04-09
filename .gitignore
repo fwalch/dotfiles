@@ -1,6 +1,5 @@
-vim/bundle/*
-!vim/bundle/vundle
-vim/spell/*
-vim/pythonx/*
-vim/.netrwhist
+/vim/plugged/*
+/vim/spell/*
+/vim/pythonx/*
+/vim/.netrwhist
 *.log
