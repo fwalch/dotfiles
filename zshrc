@@ -27,13 +27,13 @@ fi
 
 bindkey -v
 
-bindkey -M viins "^K" history-beginning-search-backward
-bindkey -M viins "^J" history-beginning-search-forward
+bindkey -M viins "^K" history-search-backward
+bindkey -M viins "^J" history-search-forward
 bindkey -M viins "^P" up-line-or-history
 bindkey -M viins "^N" down-line-or-history
 
-bindkey -M vicmd "^K" history-beginning-search-backward
-bindkey -M vicmd "^J" history-beginning-search-forward
+bindkey -M vicmd "^K" history-search-backward
+bindkey -M vicmd "^J" history-search-forward
 bindkey -M vicmd "^P" up-line-or-history
 bindkey -M vicmd "^N" down-line-or-history
 bindkey -M vicmd "?" history-incremental-search-backward
@@ -43,8 +43,6 @@ unsetopt correct_all
 unsetopt auto_name_dirs
 unsetopt inc_append_history
 setopt append_history
-
-#source $HOME/.dotfiles/zsh/custom/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Based on https://github.com/justinmk/config/blob/master/.bashrc#L222
 ghrebasepr() {(
