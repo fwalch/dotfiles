@@ -1,49 +1,25 @@
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall
+endif
+
 call plug#begin('~/.vim/plugged')
 Plug 'sjl/badwolf'
 
-"Plug 'bling/vim-airline'
-Plug 'fmoralesc/vim-tutor-mode'
-"Plug 'tpope/vim-surround'
-"Plug 'junegunn/vader.vim'
 Plug 'junegunn/vim-peekaboo'
 Plug 'autoswap.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'scrooloose/syntastic'
-"Plug 'benekastah/neomake'
-"Plug 'cohama/lexima.vim'
-"Plug 'tpope/vim-fugitive'
-"Plug 'tpope/vim-unimpaired'
-Plug 'LaTeX-Box-Team/LaTeX-Box', { 'for': 'tex' }
-Plug 'tpope/vim-liquid', { 'for': 'html' }
+Plug 'tpope/vim-fugitive'
+Plug 'LaTeX-Box-Team/LaTeX-Box'
+Plug 'tpope/vim-liquid'
 Plug 'matchit.zip'
-"Plug 'AdvancedDiffOptions'
-"Plug 'reedes/vim-wordy'
-"Plug 'xolox/vim-misc'
-"Plug 'xolox/vim-easytags'
 Plug 'haya14busa/incsearch.vim'
-Plug 'fatih/vim-go', { 'for': 'go' }
-"Plug 'KabbAmine/zeavim.vim'
+Plug 'fatih/vim-go'
+Plug 'godlygeek/tabular'
 Plug 'kopischke/vim-fetch'
 Plug 'vim-scripts/diffchar.vim'
-Plug 'ludovicchabant/vim-gutentags'
-
-if has('python')
-  Plug 'bbchung/clighter'
-endif
-
-if substitute(system('lsb_release -si'), "\n", "", "") == 'Arch' && has('python')
-  function! BuildYCM(info)
-    " info is a dictionary with 3 fields
-    " - name:   name of the plugin
-    " - status: 'installed', 'updated', or 'unchanged'
-    " - force:  set on PlugInstall! or PlugUpdate!
-    if a:info.status == 'installed' || a:info.force
-      !./install.sh --clang-completer --system-libclang
-    endif
-  endfunction
-  Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
-end
-
 call plug#end()
 
 " +----------------+
@@ -85,7 +61,7 @@ set spelllang=en_us,de
 set spellfile=~/.vim/spell/fwalch.utf-8.add
 
 " -- Completion
-set completeopt=menuone           " Show completion menu even if only one match
+set completeopt=menuone,preview   " Show completion menu even if only one match
 
 " -- Side-/Statusbar
 set ruler                         " Show current position in status bar
@@ -120,19 +96,16 @@ let mapleader = "ö"
 
 nnoremap <F5> :make!<CR>
 nnoremap <F6> :exec 'read !'.getline('.')<CR>
+" Execute visual selection in split terminal
+vnoremap <F6> y<c-w>wpA<cr><c-\><c-n><c-w>pgv
 
 " Map CTRL-J and CTRL-K to move through completion
 inoremap <C-J> <C-N>
 inoremap <C-K> <C-P>
 
-" Map CTRL-B to go to declaration
-nnoremap <C-B> :YcmCompleter GoToDefinitionElseDeclaration<CR>
-
-inoremap jk <ESC>
-inoremap kj <ESC>
+" Map ESC ESC to exit terminal mode
 if has('nvim')
-  tnoremap jk <C-\><C-N>
-  tnoremap kj <C-\><C-N>
+  tnoremap <esc><esc> <C-\><C-n>
 endif
 
 " +----------------+
@@ -150,13 +123,7 @@ endif
 highlight default SyntasticError ctermbg=196 guibg=#ff2c4b ctermfg=15 guifg=#f9f6f2 cterm=bold term=bold gui=bold
 highlight default SyntasticWarning ctermbg=214 guibg=#ffa724 ctermfg=15 guifg=#f9f6f2 cterm=bold term=bold gui=bold
 
-"highlight SyntasticError guibg=128
-
 highlight CursorLine term=bold cterm=bold gui=bold
-
-" Always show sign column
-" autocmd BufEnter * sign define dummy
-" autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
 
 " +-----------------+
 " | CTRL-P settings |
@@ -190,7 +157,6 @@ let g:syntastic_cpp_compiler_options = '-std=c++11'
 let g:ycm_confirm_extra_conf = 0         " Don't ask when opening ycm config file
 let g:ycm_add_preview_to_completeopt = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_path_to_python_interpreter = '/usr/bin/python2'
 
 " +--------------------+
 " | incsearch settings |

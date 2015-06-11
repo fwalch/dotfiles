@@ -27,13 +27,13 @@ fi
 
 bindkey -v
 
-bindkey -M viins "^K" history-search-backward
-bindkey -M viins "^J" history-search-forward
+bindkey -M viins "^K" history-beginning-search-backward
+bindkey -M viins "^J" history-beginning-search-forward
 bindkey -M viins "^P" up-line-or-history
 bindkey -M viins "^N" down-line-or-history
 
-bindkey -M vicmd "^K" history-search-backward
-bindkey -M vicmd "^J" history-search-forward
+bindkey -M vicmd "^K" history-beginning-search-backward
+bindkey -M vicmd "^J" history-beginning-search-forward
 bindkey -M vicmd "^P" up-line-or-history
 bindkey -M vicmd "^N" down-line-or-history
 bindkey -M vicmd "?" history-incremental-search-backward
@@ -60,9 +60,9 @@ ghrebasepr() {(
   git checkout master &&
   git stash save autosave-$(date +%Y%m%d_%H%M%S) &&
   git reset --hard upstream/master &&
-  git merge -m "Merge #${PR} '${PR_TITLE}'." \
+  git merge -m "Merge #${PR} '${PR_TITLE%.}'." \
     --no-ff - &&
-  git log -n 5
+  git log -n 15
 )}
 
 ghrebase1() {
@@ -76,7 +76,7 @@ ghrebase1() {
   git merge --ff-only - &&
   git commit --amend -m "$(git log -1 --pretty=format:"%B" \
     | sed -E "1 s/^(.*)\$/\\1 #${PR}/g")" &&
-  git log -n 5
+  git log -n 15
 }
 
 source $HOME/.zshrc.local
