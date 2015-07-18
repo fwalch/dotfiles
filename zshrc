@@ -54,7 +54,7 @@ ghrebasepr() {(
   PR_TITLE="$(curl -Ss "https://api.github.com/repos/${REPO_SLUG}/pulls/${PR}" \
     | jq -r '.title' \
     | sed 's/^\[\(RFC\|RDY\)\] *//')"
-  git fetch --all &&
+  git fetch upstream &&
   git checkout refs/pull/upstream/${PR} &&
   git rebase upstream/master &&
   git checkout master &&
@@ -67,7 +67,7 @@ ghrebasepr() {(
 
 ghrebase1() {
   PR=${1}
-  git fetch --all &&
+  git fetch upstream &&
   git checkout refs/pull/upstream/${PR} &&
   git rebase upstream/master &&
   git checkout master &&

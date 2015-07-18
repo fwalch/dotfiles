@@ -24,3 +24,5 @@
   prompt = false
 [grep]
   patterntype = perl
+[rebase]
+	autosquash = true

@@ -3,7 +3,7 @@
 #
 
 WWW_HOME=https://duckduckgo.com
-EDITOR=vim
+EDITOR=vi
 
 export EDITOR WWW_HOME
 

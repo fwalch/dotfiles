@@ -11,15 +11,15 @@ Plug 'junegunn/vim-peekaboo'
 Plug 'autoswap.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'scrooloose/syntastic'
-Plug 'tpope/vim-fugitive'
+"Plug 'tpope/vim-fugitive'
 Plug 'LaTeX-Box-Team/LaTeX-Box'
-Plug 'tpope/vim-liquid'
+"Plug 'tpope/vim-liquid'
 Plug 'matchit.zip'
 Plug 'haya14busa/incsearch.vim'
-Plug 'fatih/vim-go'
-Plug 'godlygeek/tabular'
+"Plug 'godlygeek/tabular'
 Plug 'kopischke/vim-fetch'
-Plug 'vim-scripts/diffchar.vim'
+"Plug 'Shougo/deoplete.nvim'
+"Plug 'vim-scripts/diffchar.vim'
 call plug#end()
 
 " +----------------+
@@ -190,6 +190,7 @@ endfunction
 
 let delimitMate_expand_cr = 1
 let g:easytags_suppress_report = 1
+let g:deoplete#enable_at_startup = 1
 
 " Source local extra config file if it exists
 " let s:extra_config = getcwd() .'/.vim_extra_conf.vim'
