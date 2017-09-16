@@ -17,12 +17,15 @@
 [push]
   default = simple
 [diff]
-  tool = nvim -d
+  tool = vimdiff
 [merge]
-  tool = nvim -d
-[difftool]
+  tool = vimdiff
+[mergetool "vimdiff"]
   prompt = false
+  cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [grep]
   patterntype = perl
 [rebase]
-	autosquash = true
+  autosquash = true
+[credential]
+  helper = cache

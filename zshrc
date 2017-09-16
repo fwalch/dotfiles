@@ -5,8 +5,6 @@
 export ZSH=$HOME/.dotfiles/zsh/oh-my-zsh
 export ZSH_THEME="fwalch"
 
-plugins=(gitfast)
-
 # For virtual console, fall back to fwalch theme included in oh-my-zsh
 if [[ $TERM != "linux" ]]; then
   export ZSH_CUSTOM=$HOME/.dotfiles/zsh/custom
@@ -43,6 +41,7 @@ unsetopt correct_all
 unsetopt auto_name_dirs
 unsetopt inc_append_history
 setopt append_history
+setopt histignorespace
 
 # Based on https://github.com/justinmk/config/blob/master/.bashrc#L222
 ghrebasepr() {(

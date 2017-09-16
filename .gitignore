@@ -1,6 +1,8 @@
-/vim/plugged/*
-/vim/spell/*
-/vim/pythonx/*
+*.log
 /vim/.netrwhist
 /vim/autoload/plug.vim
-*.log
+/vim/init.vim
+/vim/plugged/*
+/vim/pythonx/*
+/vim/shada/*
+/vim/spell/*

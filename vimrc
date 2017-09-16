@@ -8,18 +8,9 @@ call plug#begin('~/.vim/plugged')
 Plug 'sjl/badwolf'
 
 Plug 'junegunn/vim-peekaboo'
-Plug 'autoswap.vim'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'scrooloose/syntastic'
-"Plug 'tpope/vim-fugitive'
-Plug 'LaTeX-Box-Team/LaTeX-Box'
-"Plug 'tpope/vim-liquid'
-Plug 'matchit.zip'
-Plug 'haya14busa/incsearch.vim'
-"Plug 'godlygeek/tabular'
+Plug 'wellle/targets.vim'
 Plug 'kopischke/vim-fetch'
-"Plug 'Shougo/deoplete.nvim'
-"Plug 'vim-scripts/diffchar.vim'
 call plug#end()
 
 " +----------------+
@@ -39,6 +30,12 @@ set modelines=0                   " Disable modelines
 set ttyfast                       " Faster redrawing in terminal
 set visualbell                    " Visual bell instead of beeping
 set background=dark
+set mouse=
+
+set termguicolors
+
+let g:python_host_prog = '/usr/bin/python2'
+let g:python3_host_prog = '/usr/bin/python3'
 
 " -- Backup/Swap etc.
 set undofile                      " Use undo-file features
@@ -62,6 +59,7 @@ set spellfile=~/.vim/spell/fwalch.utf-8.add
 
 " -- Completion
 set completeopt=menuone,preview   " Show completion menu even if only one match
+set complete=.,w,b,u,t,i,kspell
 
 " -- Side-/Statusbar
 set ruler                         " Show current position in status bar
@@ -88,6 +86,8 @@ endif
 set list
 set listchars=tab:»\ ,trail:␣,extends:↲,precedes:↳,nbsp:·
 
+au BufRead,BufNewFile *CMakeLists.txt setfiletype cmake
+
 " +--------------+
 " | Key mappings |
 " +--------------+
@@ -95,9 +95,10 @@ set listchars=tab:»\ ,trail:␣,extends:↲,precedes:↳,nbsp:·
 let mapleader = "ö"
 
 nnoremap <F5> :make!<CR>
-nnoremap <F6> :exec 'read !'.getline('.')<CR>
+"nnoremap <F6> :exec 'read !'.getline('.')<CR>
 " Execute visual selection in split terminal
 vnoremap <F6> y<c-w>wpA<cr><c-\><c-n><c-w>pgv
+nnoremap <F6> yy<c-w>wpA<cr><c-\><c-n><c-w>p
 
 " Map CTRL-J and CTRL-K to move through completion
 inoremap <C-J> <C-N>
@@ -132,65 +133,16 @@ highlight CursorLine term=bold cterm=bold gui=bold
 let g:ctrlp_custom_ignore = '\.class$\|\vendor/bundle$|\tmp$|\.o$'
 let g:ctrlp_by_filename = 1 " Search only filename by default
 let g:ctrlp_working_path_mode = 'rwa'
+let g:ctrlp_root_markers = ['.repo', '.dotfiles', '.git']
+let g:ctrlp_working_path_mode = 0
 
 if executable('ag')
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 endif
-
-" +--------------------+
-" | Syntastic settings |
-" +--------------------+
-
-let g:syntastic_check_on_open = 1
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_enable_signs = 0
-
-let g:syntastic_tex_checkers = ['chktex', 'lacheck']
-let g:syntastic_python_checkers = ['flake8']
-
-let g:syntastic_cpp_compiler_options = '-std=c++11'
-
-" +------------------------+
-" | YouCompleteMe settings |
-" +------------------------+
-
-let g:ycm_confirm_extra_conf = 0         " Don't ask when opening ycm config file
-let g:ycm_add_preview_to_completeopt = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
-
-" +--------------------+
-" | incsearch settings |
-" +--------------------+
-
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-let g:incsearch#auto_nohlsearch = 1
-map n  <Plug>(incsearch-nohl-n)
-map N  <Plug>(incsearch-nohl-N)
-map *  <Plug>(incsearch-nohl-*)
-map #  <Plug>(incsearch-nohl-#)
-map g* <Plug>(incsearch-nohl-g*)
-map g# <Plug>(incsearch-nohl-g#)
-let g:incsearch#consistent_n_direction = 1
-augroup incsearch-keymap
-  autocmd!
-  autocmd VimEnter * call s:incsearch_keymap()
-augroup END
-function! s:incsearch_keymap()
-  IncSearchNoreMap <C-J> <Over>(incsearch-next)
-  IncSearchNoreMap <C-K> <Over>(incsearch-prev)
-  IncSearchNoreMap <C-U> <Over>(incsearch-scroll-f)
-  IncSearchNoreMap <C-D> <Over>(incsearch-scroll-b)
-endfunction
 
 " +-------------------+
 " | Other settings |
 " +-------------------+
-
-let delimitMate_expand_cr = 1
-let g:easytags_suppress_report = 1
-let g:deoplete#enable_at_startup = 1
 
 " Source local extra config file if it exists
 " let s:extra_config = getcwd() .'/.vim_extra_conf.vim'
