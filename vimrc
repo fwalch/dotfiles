@@ -86,8 +86,6 @@ endif
 set list
 set listchars=tab:»\ ,trail:␣,extends:↲,precedes:↳,nbsp:·
 
-au BufRead,BufNewFile *CMakeLists.txt setfiletype cmake
-
 " +--------------+
 " | Key mappings |
 " +--------------+
