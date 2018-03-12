@@ -9,7 +9,7 @@ echo '✱ Checking out submodules'
 git submodule update --init
 
 echo '✱ Linking config files'
-targets=(chktexrc gdbinit gemrc gitconfig gitignore gvimrc inputrc irbrc lynxrc vimrc zshenv zshrc vim)
+targets=(chktexrc gdbinit gemrc ghci gitconfig gitignore gvimrc inputrc irbrc lynxrc vimrc zshenv zshrc vim)
 for target in $targets; do
   ln -nfs $HOME/.dotfiles/$target $HOME/.$target
 done

@@ -11,6 +11,16 @@ Plug 'junegunn/vim-peekaboo'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'wellle/targets.vim'
 Plug 'kopischke/vim-fetch'
+Plug 'tpope/vim-unimpaired'
+
+if has('nvim')
+  Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+endif
+
 call plug#end()
 
 " +----------------+
@@ -34,8 +44,10 @@ set mouse=
 
 set termguicolors
 
-let g:python_host_prog = '/usr/bin/python2'
-let g:python3_host_prog = '/usr/bin/python3'
+if has('nvim')
+  let g:python_host_prog = '/usr/bin/env python2'
+  let g:python3_host_prog = '/usr/bin/env python3'
+endif
 
 " -- Backup/Swap etc.
 set undofile                      " Use undo-file features
@@ -128,7 +140,7 @@ highlight CursorLine term=bold cterm=bold gui=bold
 " | CTRL-P settings |
 " +-----------------+
 
-let g:ctrlp_custom_ignore = '\.class$\|\vendor/bundle$|\tmp$|\.o$'
+let g:ctrlp_custom_ignore = '\v[\/]\.git$'
 let g:ctrlp_by_filename = 1 " Search only filename by default
 let g:ctrlp_working_path_mode = 'rwa'
 let g:ctrlp_root_markers = ['.repo', '.dotfiles', '.git']
@@ -136,6 +148,21 @@ let g:ctrlp_working_path_mode = 0
 
 if executable('ag')
   let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+endif
+
+" +--------------+
+" | LSP settings |
+" +--------------+
+
+if has('nvim')
+  set hidden
+  let g:LanguageClient_serverCommands = {
+      \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+      \ }
+  nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+  nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+  nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+  nnoremap <silent> <F7> :call LanguageClient_textDocument_references()<CR>
 endif
 
 " +-------------------+
