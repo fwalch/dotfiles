@@ -61,8 +61,8 @@ set hlsearch                      " Highlight search words
 set ignorecase                    " Search is case-insensitive ...
 set smartcase                     " ... unless it contains a capital letter
 
-if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
+if executable('rg')
+  set grepprg=rg\ --color=never
 endif
 
 " -- Spell checking
@@ -146,8 +146,9 @@ let g:ctrlp_working_path_mode = 'rwa'
 let g:ctrlp_root_markers = ['.repo', '.dotfiles', '.git']
 let g:ctrlp_working_path_mode = 0
 
-if executable('ag')
-  let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+if executable('rg')
+  let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+  let g:ctrlp_use_caching = 0
 endif
 
 " +--------------+
