@@ -6,3 +6,4 @@
 .bzr
 .bzrignore
 /tags
+compile_commands.json
