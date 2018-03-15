@@ -1,6 +1,6 @@
 *.log
 /vim/.netrwhist
-/vim/autoload/plug.vim
+/vim/autoload/plug.vim*
 /vim/init.vim
 /vim/plugged/*
 /vim/pythonx/*

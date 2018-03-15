@@ -17,6 +17,7 @@ done
 # Nvim config
 mkdir -p $HOME/.config
 ln -nfs $HOME/.dotfiles/vim $HOME/.config/nvim
+ln -nfs $HOME/.dotfiles/vim $HOME/.vim
 ln -nfs $HOME/.dotfiles/vimrc $HOME/.config/nvim/init.vim
 
 whence vim > /dev/null && {

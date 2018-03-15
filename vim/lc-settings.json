@@ -1,0 +1,7 @@
+{
+  "initializationOptions": {
+    "cacheDirectory": "/tmp/cquery",
+    "compilationDatabaseDirectory": "build",
+    "cacheFormat": "msgpack"
+  }
+}

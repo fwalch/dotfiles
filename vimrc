@@ -13,12 +13,18 @@ Plug 'wellle/targets.vim'
 Plug 'kopischke/vim-fetch'
 Plug 'tpope/vim-unimpaired'
 
+" Syntax plugins
+Plug 'leafgarland/typescript-vim'
+Plug 'tasn/vim-tsx'
+
 if has('nvim')
   Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
     \ }
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'parsonsmatt/intero-neovim'
+  Plug 'w0rp/ale'
 endif
 
 call plug#end()
@@ -41,6 +47,7 @@ set ttyfast                       " Faster redrawing in terminal
 set visualbell                    " Visual bell instead of beeping
 set background=dark
 set mouse=
+set hidden
 
 set termguicolors
 
@@ -90,7 +97,7 @@ set softtabstop=-1                " Use shiftwidth
 set expandtab                     " Use spaces instead of tabs
 set backspace=indent,eol,start    " Backspacing over everything
 
-if has('linebreak')
+if exists('+breakindent')
   set breakindent
 endif
 
@@ -151,20 +158,60 @@ if executable('rg')
   let g:ctrlp_use_caching = 0
 endif
 
+" +-----------------+
+" | Intero settings |
+" +-----------------+
+
+let g:intero_use_neomake = 0
+
+augroup interoMappings
+  au!
+  au FileType haskell nnoremap <buffer><silent> <leader>io :InteroOpen<CR>
+  au FileType haskell nnoremap <buffer><silent> <leader>ik :InteroKill<CR>
+
+  au FileType haskell map <buffer><silent> <leader>t <Plug>InteroGenericType
+  au FileType haskell map <buffer><silent> <leader>T <Plug>InteroType
+augroup end
+
+" +--------------+
+" | ALE settings |
+" +--------------+
+
+let g:ale_linters = {
+\  'cpp': ['clang-tidy'],
+\  'haskell': ['hlint', 'stack-build'],
+\}
+
+let g:ale_c_clangtidy_build_dir = 'build'
+let g:ale_c_clangtidy_checks = []
+let g:ale_cpp_clangtidy_checks = []
+
 " +--------------+
 " | LSP settings |
 " +--------------+
 
-if has('nvim')
-  set hidden
-  let g:LanguageClient_serverCommands = {
-      \ 'rust': ['rustup', 'run', 'stable', 'rls'],
-      \ }
-  nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-  nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-  nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-  nnoremap <silent> <F7> :call LanguageClient_textDocument_references()<CR>
-endif
+let g:LanguageClient_serverCommands = {
+    \ 'c': ['cquery'],
+    \ 'cpp': ['cquery'],
+    \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+    \ 'haskell': ['hie', '--lsp'],
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ 'javascript.jsx': ['javascript-typescript-stdio'],
+    \ 'typescript': ['javascript-typescript-stdio'],
+    \ 'typescript.tsx': ['javascript-typescript-stdio'],
+    \ }
+
+let g:LanguageClient_loadSettings = 1
+let g:LanguageClient_settingsPath = expand('$HOME/.dotfiles/vim/lc-settings.json')
+
+augroup LspMappings
+  au!
+  au FileType c,cpp,rust,haskell,javascript,javascript.jsx,typescript,typescript.tsx nnoremap <buffer><silent> K :call LanguageClient_textDocument_hover()<CR>
+  au FileType c,cpp,rust,haskell,javascript,javascript.jsx,typescript,typescript.tsx nnoremap <buffer><silent> gd :call LanguageClient_textDocument_definition()<CR>
+  au FileType c,cpp,rust,haskell,javascript,javascript.jsx,typescript,typescript.tsx nnoremap <buffer><silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+  au FileType c,cpp,rust,haskell,javascript,javascript.jsx,typescript,typescript.tsx nnoremap <buffer><silent> <F7> :call LanguageClient_textDocument_references()<CR>
+  au FileType rust,haskell,javascript,javascript.jsx,typescript,typescript.tsx setlocal formatexpr=LanguageClient_textDocument_rangeFormatting()
+augroup end
 
 " +-------------------+
 " | Other settings |
