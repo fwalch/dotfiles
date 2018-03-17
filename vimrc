@@ -52,8 +52,8 @@ set hidden
 set termguicolors
 
 if has('nvim')
-  let g:python_host_prog = '/usr/bin/env python2'
-  let g:python3_host_prog = '/usr/bin/env python3'
+  let g:python_host_prog = '/usr/bin/python2'
+  let g:python3_host_prog = '/usr/bin/python3'
 endif
 
 " -- Backup/Swap etc.
@@ -216,6 +216,8 @@ augroup end
 " +-------------------+
 " | Other settings |
 " +-------------------+
+
+let g:deoplete#enable_at_startup = 1
 
 " Source local extra config file if it exists
 " let s:extra_config = getcwd() .'/.vim_extra_conf.vim'
