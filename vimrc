@@ -179,9 +179,10 @@ augroup end
 " +--------------+
 
 let g:ale_linters = {
-\  'cpp': ['clang-tidy'],
-\  'haskell': ['hlint', 'stack-build'],
-\}
+\ 'cpp': ['clang-tidy'],
+\ 'haskell': ['hlint', 'stack-build'],
+\ 'rust': ['rls'],
+\ }
 
 let g:ale_c_clangtidy_build_dir = 'build'
 
@@ -189,20 +190,22 @@ let g:ale_c_clangtidy_build_dir = 'build'
 let g:ale_c_clangtidy_checks = []
 let g:ale_cpp_clangtidy_checks = []
 
+let g:ale_rust_rls_toolchain = 'stable'
+
 " +--------------+
 " | LSP settings |
 " +--------------+
 
 let g:LanguageClient_serverCommands = {
-    \ 'c': ['cquery'],
-    \ 'cpp': ['cquery'],
-    \ 'rust': ['rustup', 'run', 'stable', 'rls'],
-    \ 'haskell': ['hie', '--lsp'],
-    \ 'javascript': ['javascript-typescript-stdio'],
-    \ 'javascript.jsx': ['javascript-typescript-stdio'],
-    \ 'typescript': ['javascript-typescript-stdio'],
-    \ 'typescript.tsx': ['javascript-typescript-stdio'],
-    \ }
+\ 'c': ['cquery'],
+\ 'cpp': ['cquery'],
+\ 'rust': ['rustup', 'run', 'stable', 'rls'],
+\ 'haskell': ['hie', '--lsp'],
+\ 'javascript': ['javascript-typescript-stdio'],
+\ 'javascript.jsx': ['javascript-typescript-stdio'],
+\ 'typescript': ['javascript-typescript-stdio'],
+\ 'typescript.tsx': ['javascript-typescript-stdio'],
+\ }
 
 let g:LanguageClient_loadSettings = 1
 let g:LanguageClient_settingsPath = expand('$HOME/.dotfiles/vim/lc-settings.json')
@@ -219,8 +222,6 @@ augroup end
 " +-------------------+
 " | Other settings |
 " +-------------------+
-
-let g:deoplete#enable_at_startup = 1
 
 " Source local extra config file if it exists
 " let s:extra_config = getcwd() .'/.vim_extra_conf.vim'
