@@ -1,10 +1,10 @@
-if empty(glob('~/.vim/autoload/plug.vim'))
+if empty(glob('~/.dotfiles/vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall
 endif
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.dotfiles/vim/plugged')
 Plug 'sjl/badwolf'
 
 Plug 'junegunn/vim-peekaboo'
@@ -13,19 +13,19 @@ Plug 'wellle/targets.vim'
 Plug 'kopischke/vim-fetch'
 Plug 'tpope/vim-unimpaired'
 
-" Syntax plugins
-Plug 'leafgarland/typescript-vim'
-Plug 'tasn/vim-tsx'
-
 if has('nvim')
   Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
     \ }
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'roxma/nvim-completion-manager'
   Plug 'parsonsmatt/intero-neovim'
   Plug 'w0rp/ale'
 endif
+
+" Syntax plugins
+Plug 'leafgarland/typescript-vim'
+Plug 'tasn/vim-tsx'
 
 call plug#end()
 
@@ -48,6 +48,7 @@ set visualbell                    " Visual bell instead of beeping
 set background=dark
 set mouse=
 set hidden
+set shortmess+=c
 
 set termguicolors
 
@@ -69,7 +70,7 @@ set ignorecase                    " Search is case-insensitive ...
 set smartcase                     " ... unless it contains a capital letter
 
 if executable('rg')
-  set grepprg=rg\ --color=never
+  set grepprg=rg\ --vimgrep
 endif
 
 " -- Spell checking
@@ -183,6 +184,8 @@ let g:ale_linters = {
 \}
 
 let g:ale_c_clangtidy_build_dir = 'build'
+
+" Use config from .clang-tidy
 let g:ale_c_clangtidy_checks = []
 let g:ale_cpp_clangtidy_checks = []
 
