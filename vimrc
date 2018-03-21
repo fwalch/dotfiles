@@ -50,7 +50,10 @@ set mouse=
 set hidden
 set shortmess+=c
 
-set termguicolors
+" Enable 24-bit colors
+if exists('+termguicolors')
+  set termguicolors
+endif
 
 if has('nvim')
   let g:python_host_prog = '/usr/bin/python2'
@@ -177,6 +180,9 @@ augroup end
 " +--------------+
 " | ALE settings |
 " +--------------+
+
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
 
 let g:ale_linters = {
 \ 'cpp': ['clang-tidy'],

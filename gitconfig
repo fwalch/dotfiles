@@ -6,7 +6,7 @@
   ui = true
 [core]
   excludesfile = ~/.dotfiles/gitignore
-  editor = nvim
+  editor = vi
   autocrlf = input
 [apply]
   whitespace = nowarn
@@ -16,13 +16,6 @@
   autosetuprebase = always
 [push]
   default = simple
-[diff]
-  tool = vimdiff
-[merge]
-  tool = vimdiff
-[mergetool "vimdiff"]
-  prompt = false
-  cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [grep]
   patterntype = perl
 [rebase]
