@@ -3,5 +3,9 @@
     "cacheDirectory": "/tmp/cquery",
     "compilationDatabaseDirectory": "build",
     "cacheFormat": "msgpack"
+  },
+  "languageServerHaskell": {
+    "hlintOn": true,
+    "maxNumberOfProblems": 20
   }
 }

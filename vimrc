@@ -19,8 +19,11 @@ if has('nvim')
     \ 'do': 'bash install.sh',
     \ }
   Plug 'roxma/nvim-completion-manager'
-  Plug 'parsonsmatt/intero-neovim'
   Plug 'w0rp/ale'
+endif
+
+if has('signs')
+  Plug 'airblade/vim-gitgutter'
 endif
 
 " Syntax plugins
@@ -49,6 +52,7 @@ set background=dark
 set mouse=
 set hidden
 set shortmess+=c
+set updatetime=100
 
 " Enable 24-bit colors
 if exists('+termguicolors')
@@ -186,7 +190,7 @@ let g:ale_set_quickfix = 1
 
 let g:ale_linters = {
 \ 'cpp': ['clang-tidy'],
-\ 'haskell': ['hlint', 'stack-build'],
+\ 'haskell': [],
 \ 'rust': ['rls'],
 \ }
 
@@ -206,7 +210,8 @@ let g:LanguageClient_serverCommands = {
 \ 'c': ['cquery'],
 \ 'cpp': ['cquery'],
 \ 'rust': ['rustup', 'run', 'stable', 'rls'],
-\ 'haskell': ['hie', '--lsp'],
+\ 'haskell': ['stack', 'exec', 'hie-wrapper'],
+\ 'python': ['pyls'],
 \ 'javascript': ['javascript-typescript-stdio'],
 \ 'javascript.jsx': ['javascript-typescript-stdio'],
 \ 'typescript': ['javascript-typescript-stdio'],
@@ -218,11 +223,11 @@ let g:LanguageClient_settingsPath = expand('$HOME/.dotfiles/vim/lc-settings.json
 
 augroup LspMappings
   au!
-  au FileType c,cpp,rust,haskell,javascript,javascript.jsx,typescript,typescript.tsx nnoremap <buffer><silent> K :call LanguageClient_textDocument_hover()<CR>
-  au FileType c,cpp,rust,haskell,javascript,javascript.jsx,typescript,typescript.tsx nnoremap <buffer><silent> gd :call LanguageClient_textDocument_definition()<CR>
-  au FileType c,cpp,rust,haskell,javascript,javascript.jsx,typescript,typescript.tsx nnoremap <buffer><silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-  au FileType c,cpp,rust,haskell,javascript,javascript.jsx,typescript,typescript.tsx nnoremap <buffer><silent> <F7> :call LanguageClient_textDocument_references()<CR>
-  au FileType rust,haskell,javascript,javascript.jsx,typescript,typescript.tsx setlocal formatexpr=LanguageClient_textDocument_rangeFormatting()
+  au FileType c,cpp,rust,haskell,javascript,javascript.jsx,typescript,typescript.tsx,python nnoremap <buffer><silent> K :call LanguageClient_textDocument_hover()<CR>
+  au FileType c,cpp,rust,haskell,javascript,javascript.jsx,typescript,typescript.tsx,python nnoremap <buffer><silent> gd :call LanguageClient_textDocument_definition()<CR>
+  au FileType c,cpp,rust,haskell,javascript,javascript.jsx,typescript,typescript.tsx,python nnoremap <buffer><silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+  au FileType c,cpp,rust,haskell,javascript,javascript.jsx,typescript,typescript.tsx,python nnoremap <buffer><silent> <F7> :call LanguageClient_textDocument_references()<CR>
+  au FileType rust,haskell,javascript,javascript.jsx,typescript,typescript.tsx,python setlocal formatexpr=LanguageClient_textDocument_rangeFormatting()
 augroup end
 
 " +-------------------+
