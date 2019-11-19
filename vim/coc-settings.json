@@ -1,0 +1,38 @@
+{
+	"languageserver": {
+		"clangd": {
+			"command": "clangd-8",
+			"rootPatterns": ["CMakeLists.txt", ".vim/", ".git/", ".hg/"],
+			"filetypes": ["c", "cpp", "objc", "objcpp"]
+		},
+		"haskell": {
+			"command": "hie-wrapper",
+			"args": ["--lsp"],
+			"rootPatterns": ["stack.yaml", "package.yaml"],
+			"filetypes": ["hs", "lhs", "haskell"],
+			"initializationOptions": {},
+			"settings": {
+				"languageServerHaskell": {
+					"hlintOn": true,
+					"maxNumberOfProblems": 10,
+					"completionSnippetsOn": true
+				}
+			}
+		},
+		"rust": {
+			"command": "rls",
+			"filetypes": ["rust"],
+			"rootPatterns": ["Cargo.toml"]
+		}
+	},
+	"latex": {
+		"build": {
+			"args": ["-pdf", "-pv"],
+			"onSave": true
+		},
+		"forwardSearch": {
+			"executable": "evince-synctex",
+			"args": ["-f", "%l", "%p", "\"nvimr --remote %f:%l\""]
+		}
+	}
+}

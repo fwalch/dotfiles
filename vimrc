@@ -14,12 +14,7 @@ Plug 'kopischke/vim-fetch'
 Plug 'tpope/vim-unimpaired'
 
 if has('nvim')
-  Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-  Plug 'roxma/nvim-completion-manager'
-  Plug 'w0rp/ale'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
 endif
 
 if has('signs')
@@ -142,14 +137,14 @@ if &term == 'linux'
   silent! colorscheme darkblue
 else
   silent! colorscheme badwolf
-  highlight default link SneakPluginTarget EasyMotionTarget
-  highlight default link SneakPluginScope EasyMotionShade
 endif
 
-highlight default SyntasticError ctermbg=196 guibg=#ff2c4b ctermfg=15 guifg=#f9f6f2 cterm=bold term=bold gui=bold
-highlight default SyntasticWarning ctermbg=214 guibg=#ffa724 ctermfg=15 guifg=#f9f6f2 cterm=bold term=bold gui=bold
-
 highlight CursorLine term=bold cterm=bold gui=bold
+
+highlight link GitGutterAdd DiffAdd
+highlight link GitGutterChange DiffAdd
+highlight link GitGutterDelete DiffAdd
+highlight link GitGutterChangeDeleteLine DiffAdd
 
 " +-----------------+
 " | CTRL-P settings |
@@ -166,68 +161,20 @@ if executable('rg')
   let g:ctrlp_use_caching = 0
 endif
 
-" +-----------------+
-" | Intero settings |
-" +-----------------+
-
-let g:intero_use_neomake = 0
-
-augroup interoMappings
-  au!
-  au FileType haskell nnoremap <buffer><silent> <leader>io :InteroOpen<CR>
-  au FileType haskell nnoremap <buffer><silent> <leader>ik :InteroKill<CR>
-
-  au FileType haskell map <buffer><silent> <leader>t <Plug>InteroGenericType
-  au FileType haskell map <buffer><silent> <leader>T <Plug>InteroType
-augroup end
-
-" +--------------+
-" | ALE settings |
-" +--------------+
-
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
-
-let g:ale_linters = {
-\ 'cpp': ['clang-tidy'],
-\ 'haskell': [],
-\ 'rust': ['rls'],
-\ }
-
-let g:ale_c_clangtidy_build_dir = 'build'
-
-" Use config from .clang-tidy
-let g:ale_c_clangtidy_checks = []
-let g:ale_cpp_clangtidy_checks = []
-
-let g:ale_rust_rls_toolchain = 'stable'
-
 " +--------------+
 " | LSP settings |
 " +--------------+
 
-let g:LanguageClient_serverCommands = {
-\ 'c': ['cquery'],
-\ 'cpp': ['cquery'],
-\ 'rust': ['rustup', 'run', 'stable', 'rls'],
-\ 'haskell': ['stack', 'exec', 'hie-wrapper'],
-\ 'python': ['pyls'],
-\ 'javascript': ['javascript-typescript-stdio'],
-\ 'javascript.jsx': ['javascript-typescript-stdio'],
-\ 'typescript': ['javascript-typescript-stdio'],
-\ 'typescript.tsx': ['javascript-typescript-stdio'],
-\ }
-
-let g:LanguageClient_loadSettings = 1
-let g:LanguageClient_settingsPath = expand('$HOME/.dotfiles/vim/lc-settings.json')
-
 augroup LspMappings
   au!
-  au FileType c,cpp,rust,haskell,javascript,javascript.jsx,typescript,typescript.tsx,python nnoremap <buffer><silent> K :call LanguageClient_textDocument_hover()<CR>
-  au FileType c,cpp,rust,haskell,javascript,javascript.jsx,typescript,typescript.tsx,python nnoremap <buffer><silent> gd :call LanguageClient_textDocument_definition()<CR>
-  au FileType c,cpp,rust,haskell,javascript,javascript.jsx,typescript,typescript.tsx,python nnoremap <buffer><silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-  au FileType c,cpp,rust,haskell,javascript,javascript.jsx,typescript,typescript.tsx,python nnoremap <buffer><silent> <F7> :call LanguageClient_textDocument_references()<CR>
-  au FileType rust,haskell,javascript,javascript.jsx,typescript,typescript.tsx,python setlocal formatexpr=LanguageClient_textDocument_rangeFormatting()
+  nnoremap K :call CocActionAsync('doHover')<CR>
+  nnoremap gd :call CocActionAsync('jumpDefinition')<CR>
+  nnoremap gD :call CocActionAsync('jumpDeclaration')<CR>
+  nnoremap <F2> :call CocActionAsync('rename')<CR>
+  nnoremap <F7> :call CocActionAsync('jumpReferences')<CR>
+  nnoremap <F8> :call CocActionAsync('jumpImplementation')<CR>
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  au FileType tex nnoremap <buffer><silent> gd :CocCommand latex.ForwardSearch<CR>
 augroup end
 
 " +-------------------+
